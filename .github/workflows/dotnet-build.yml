@@ -1,0 +1,35 @@
+name: .NET Build
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3 
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3 
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install dependencies
+      run: dotnet restore **/*.csproj
+
+    - name: Build
+      run: dotnet build **/*.csproj --no-restore
+
+    - name: Custom Script
+      run: |
+        echo "Running custom script step"
+        # Adicione seu script personalizado aqui
+        # Por exemplo, execute testes adicionais ou faça o deploy
+        # echo "Custom script completed"
